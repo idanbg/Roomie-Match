@@ -107,3 +107,64 @@ export const getUserProfile = (req: AuthRequest, res: Response): void => {
     createdAt: req.user.createdAt,
   });
 };
+
+export const updateUserProfile = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    if (!req.user) {
+      res.status(401).json({ message: 'Unauthorized' });
+      return;
+    }
+
+    const { username, profileImage, bio } = req.body;
+
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    if (username) user.username = username;
+    if (profileImage) user.profileImage = profileImage;
+    if (bio) user.bio = bio;
+
+    await user.save();
+
+    res.status(200).json({
+      message: 'Profile updated successfully',
+      user: {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+        profileImage: user.profileImage,
+        bio: user.bio,
+      },
+    });
+  } catch (error) {
+    console.error('❌ Error updating profile:', error.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+export const getUserProfileById = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { userId } = req.params;
+
+    const user = await User.findById(userId).select('-password'); 
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    res.status(200).json({
+      id: user._id,
+      username: user.username,
+      email: user.email,
+      profileImage: user.profileImage,
+      bio: user.bio,
+      createdAt: user.createdAt,
+    });
+  } catch (error) {
+    console.error('❌ Error fetching user profile:', error.message);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
