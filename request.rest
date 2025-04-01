@@ -10,7 +10,7 @@ Content-Type: application/json
 
 ### 🧪 Get current user profile (requires token)
 GET http://localhost:3000/api/users/me
-Authorization: Bearer <PUT_YOUR_TOKEN_HERE>
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWE3MzlkOWM2OGI5ODI0NWM5MDA5ZCIsImlhdCI6MTc0MzUxMTY2MiwiZXhwIjoxNzQzNTEyNTYyfQ.chnrXu30jviLu0KFjMXj6A_Ijej5Y6kf8p-bvyuvbg4
 
 ### 🧪 Login as an existing user
 POST http://localhost:3000/api/users/login
@@ -36,7 +36,7 @@ GET http://localhost:3000/api/posts
 
 ### 🧪 Get my own posts (requires token)
 GET http://localhost:3000/api/posts/mine
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWE3MzlkOWM2OGI5ODI0NWM5MDA5ZCIsImlhdCI6MTc0MzQzODU0NywiZXhwIjoxNzQzNDM5NDQ3fQ.WzAGxA6oVy9U-DNtZQSe5iTXw9FF8N7uyw4Stuf5UqM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWE3MzlkOWM2OGI5ODI0NWM5MDA5ZCIsImlhdCI6MTc0MzUxMjY0MSwiZXhwIjoxNzQzNTEzNTQxfQ.OTN1NzbmwJ3DVfK39B_X1ntfAx58ovTArHpmEvQIaFU
 
 ### 🧪 Get posts by specific user ID (public)
 GET http://localhost:3000/api/posts/user/67ea739d9c68b98245c9009d
@@ -65,10 +65,10 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWE3MzlkOWM2OGI5ODI0NWM5MDA5ZCIsImlhdCI6MTc0MzQzODQ3OCwiZXhwIjoxNzQzNDM5Mzc4fQ.jPBPSRsP5H3r6p41OXe4P_CE1k0wJqlAD_j47low-bg
 ### 👍 Like a post
 PUT http://localhost:3000/api/posts/67eac2a0f51950839c20f1cd/like
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWE3MzlkOWM2OGI5ODI0NWM5MDA5ZCIsImlhdCI6MTc0MzQzODU0NywiZXhwIjoxNzQzNDM5NDQ3fQ.WzAGxA6oVy9U-DNtZQSe5iTXw9FF8N7uyw4Stuf5UqM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWE3MzlkOWM2OGI5ODI0NWM5MDA5ZCIsImlhdCI6MTc0MzUxMTY2MiwiZXhwIjoxNzQzNTEyNTYyfQ.chnrXu30jviLu0KFjMXj6A_Ijej5Y6kf8p-bvyuvbg4
 ### 👎 Unlike a post
 PUT http://localhost:3000/api/posts/67eaaf046ea04a5ed0bfe8c3/unlike
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWE3MzlkOWM2OGI5ODI0NWM5MDA5ZCIsImlhdCI6MTc0MzQzNTMxMSwiZXhwIjoxNzQzNDM2MjExfQ.KZ1BCzez8tGH_m9M1PXNs1U2z03Z81QmIWMvygTnHCw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWE3MzlkOWM2OGI5ODI0NWM5MDA5ZCIsImlhdCI6MTc0MzUxMTY2MiwiZXhwIjoxNzQzNTEyNTYyfQ.chnrXu30jviLu0KFjMXj6A_Ijej5Y6kf8p-bvyuvbg4
 ### 🔧 Update profile
 PUT http://localhost:3000/api/users/me
 Content-Type: application/json
@@ -92,3 +92,12 @@ Content-Type: image/jpeg
 
 < C:\Users\idanb\OneDrive\שולחן העבודה\1732053308129.jpeg
 --MyBoundary--
+### Search users
+GET http://localhost:3000/api/users/search?name=idan
+### Refresh access token
+POST http://localhost:3000/api/users/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWE3MzlkOWM2OGI5ODI0NWM5MDA5ZCIsImlhdCI6MTc0MzUxMjk5NSwiZXhwIjoxNzQ0MTE3Nzk1fQ.M17hAIieHZullV2cMxwDSil1vL93mA5mvKv9dYylc74"
+}
