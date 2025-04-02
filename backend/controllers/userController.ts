@@ -20,14 +20,10 @@ const generateRefreshToken = (userId: string): string => {
     expiresIn: "7d",
   });
 };
-
 /**
  * Register a new user
  */
-export const registerUser = async (
-  req: Request,
-  res: Response
-): Promise<void> => {
+export const registerUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const { username, email, password } = req.body;
 
@@ -39,31 +35,22 @@ export const registerUser = async (
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newUser: IUser = await User.create({
+    const newUser: IUser = new User({
       username,
       email,
       password: hashedPassword,
+      refreshTokens: [],
     });
 
     const accessToken = generateAccessToken(newUser._id.toString());
     const refreshToken = generateRefreshToken(newUser._id.toString());
 
-    // Set cookies
-    res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 15 * 60 * 1000, // 15 minutes
-    });
-
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    });
+    newUser.refreshTokens.push(refreshToken); // 🆕 Save refresh token to DB
+    await newUser.save(); // 🆕 Save user after adding refresh token
 
     res.status(201).json({
+      accessToken,
+      refreshToken,
       user: {
         id: newUser._id,
         username: newUser.username,
@@ -97,6 +84,9 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
 
     const accessToken = generateAccessToken(user._id.toString());
     const refreshToken = generateRefreshToken(user._id.toString());
+
+    user.refreshTokens.push(refreshToken); // 🆕 Add new refresh token to DB
+    await user.save(); // 🆕 Save changes
 
     res.status(200).json({
       accessToken,
@@ -223,32 +213,72 @@ export const searchUsers = async (
     res.status(500).json({ message: "Server error" });
   }
 };
-
 export const refreshAccessToken = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { refreshToken } = req.body;
+    const { refreshToken: oldRefreshToken } = req.body;
 
-    if (!refreshToken) {
+    if (!oldRefreshToken) {
       res.status(401).json({ message: 'Refresh token is required' });
       return;
     }
 
-    jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET as string, (err, decoded) => {
+    // Step 1: Verify refresh token
+    jwt.verify(oldRefreshToken, process.env.JWT_REFRESH_SECRET as string, async (err, decoded) => {
       if (err || typeof decoded !== 'object' || !decoded?.id) {
         res.status(403).json({ message: 'Invalid refresh token' });
         return;
       }
 
-      const accessToken = jwt.sign(
-        { id: decoded.id },
-        process.env.JWT_ACCESS_SECRET as string,
-        { expiresIn: '15m' }
-      );
+      const user = await User.findById(decoded.id);
 
-      res.status(200).json({ accessToken });
+      // Step 2: Check if refreshToken is in user's tokens list
+      if (!user || !user.refreshTokens.includes(oldRefreshToken)) {
+        res.status(403).json({ message: 'Refresh token not recognized' });
+        return;
+      }
+
+      // Step 3: Generate new access token
+      const accessToken = generateAccessToken(user._id.toString());
+      const refreshToken = generateRefreshToken(user._id.toString());
+
+      // Step 4: Update user's refresh tokens
+      user.refreshTokens = user.refreshTokens.filter(token => token !== oldRefreshToken); // Remove old refresh token
+      user.refreshTokens.push(refreshToken); // Add new refresh token
+      await user.save(); // Save updated user
+    
+
+      res.status(200).json({ accessToken, refreshToken });
     });
   } catch (error) {
     console.error('❌ Error refreshing access token:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+export const logoutUser = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { refreshToken } = req.body;
+
+    if (!refreshToken) {
+      res.status(400).json({ message: 'Refresh token is required' });
+      return;
+    }
+
+    const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET as string) as { id: string };
+
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    // Remove the token from user's refreshTokens array
+    user.refreshTokens = user.refreshTokens.filter(token => token !== refreshToken);
+    await user.save();
+
+    res.status(200).json({ message: 'Logged out successfully' });
+  } catch (error) {
+    console.error('❌ Logout error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 };

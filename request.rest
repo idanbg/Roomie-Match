@@ -94,10 +94,18 @@ Content-Type: image/jpeg
 --MyBoundary--
 ### Search users
 GET http://localhost:3000/api/users/search?name=idan
-### Refresh access token
+### Refresh access token (requires refresh token)
 POST http://localhost:3000/api/users/refresh
 Content-Type: application/json
 
 {
-  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWE3MzlkOWM2OGI5ODI0NWM5MDA5ZCIsImlhdCI6MTc0MzUxMjk5NSwiZXhwIjoxNzQ0MTE3Nzk1fQ.M17hAIieHZullV2cMxwDSil1vL93mA5mvKv9dYylc74"
+  "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWE3MzlkOWM2OGI5ODI0NWM5MDA5ZCIsImlhdCI6MTc0MzU5NjI3OCwiZXhwIjoxNzQ0MjAxMDc4fQ.0z3GSBW6CtfbrQgYF_cmxrtSa-bCIyq_U1nWMXm1SDY"
+}
+### Logout (requires token)
+POST http://localhost:3000/api/users/logout
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWE3MzlkOWM2OGI5ODI0NWM5MDA5ZCIsImlhdCI6MTc0MzU5NjMwMywiZXhwIjoxNzQzNTk3MjAzfQ.tnNTQPIMMIAcDMquwtAZEHd3iukYutYzC2bhWjpoYCY
+Content-Type: application/json
+
+{
+  "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWE3MzlkOWM2OGI5ODI0NWM5MDA5ZCIsImlhdCI6MTc0MzU5NjMwMywiZXhwIjoxNzQ0MjAxMTAzfQ.RLGurFOkXTeU5IwC1fhgXPubJgNNm9Xn9oQdkf1a2m8"
 }

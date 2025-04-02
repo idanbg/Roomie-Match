@@ -8,9 +8,9 @@ export interface IUser extends Document {
   profileImage?: string;
   bio?: string;
   likedPosts: Types.ObjectId[];
+  refreshTokens: string[]; 
   createdAt: Date;
 }
-
 
 const userSchema: Schema<IUser> = new Schema({
   username: {
@@ -34,13 +34,18 @@ const userSchema: Schema<IUser> = new Schema({
     type: String, 
     default: '', 
     trim: true,
-     maxlength: 300 },
+    maxlength: 300,
+  },
   likedPosts: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Post',
     },
   ],
+  refreshTokens: { 
+    type: [String],
+    default: [],
+  },
   createdAt: {
     type: Date,
     default: Date.now,
