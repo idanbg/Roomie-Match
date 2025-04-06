@@ -9,6 +9,7 @@ import commentRoutes from "./routes/commentRoutes";
 import uploadRoutes from "./routes/uploadRoutes";
 import swaggerUI from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
+import { options } from "./config/swagger";
 
 dotenv.config();
 
@@ -39,37 +40,7 @@ connectDB()
     console.error("❌ Failed to connect to MongoDB:", err.message);
     process.exit(1);
   });
-// Swagger setup
-const options = {
-  definition: {
-    openapi: "3.0.0",
-    info: {
-      title: "Roomie Match API",
-      version: "1.0.0",
-      description: "API documentation for Roomie Match – Fullstack Project",
-    },
-    servers: [
-      {
-        url: "http://localhost:3000",
-      },
-    ],
-    components: {
-      securitySchemes: {
-        bearerAuth: {
-          type: "http",
-          scheme: "bearer",
-          bearerFormat: "JWT",
-        },
-      },
-    },
-    security: [
-      {
-        bearerAuth: [],
-      },
-    ],
-  },
-  apis: ["./backend/routes/*.ts"], 
-};
 
+// Swagger options
 const specs = swaggerJsDoc(options);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
