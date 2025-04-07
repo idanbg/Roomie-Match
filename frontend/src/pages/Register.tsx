@@ -15,7 +15,7 @@ const Register = () => {
 
     try {
       await axios.post("/users/register", { username, email, password });
-      navigate("/");
+      navigate("/home");
     } catch  {
       setError( "Registration failed.");
     }
