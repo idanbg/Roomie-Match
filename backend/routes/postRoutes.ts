@@ -61,7 +61,7 @@ router.post('/', protect, createPost);
  *       200:
  *         description: List of all posts
  */
-router.get('/', getAllPosts);
+router.get('/',protect, getAllPosts);
 
 /**
  * @swagger
