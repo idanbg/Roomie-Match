@@ -28,3 +28,14 @@ export const unlikePost = async (postId: string) => {
 export const deletePost = async (postId: string) => {
   await api.delete(`/posts/${postId}`);
 };
+
+
+export const searchPosts = async (query: string) => {
+  const response = await api.get(`/posts/search?query=${query}`);
+  return response.data;
+};
+
+export const searchUsers = async (name: string) => {
+  const response = await api.get(`/users/search?name=${name}`);
+  return response.data;
+};

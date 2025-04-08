@@ -4,6 +4,7 @@ import { likePost, unlikePost, deletePost } from "../services/postService";
 import { useState } from "react";
 import { AxiosError } from "axios";
 import CommentSection from "./CommentSection";
+import "../styles/PostCard.css"; // Adjust the path as necessary
 
 type PostCardProps = {
   post: {
@@ -57,54 +58,52 @@ const PostCard = ({ post, onDelete }: PostCardProps) => {
   };
 
   return (
-    <div className="card mb-4">
-      <div className="card-body">
-        <div className="d-flex justify-content-between align-items-center">
-          <h5 className="mb-0">
-            <Link to={`/users/${post.username._id}`}>
-              {post.username.username}
-            </Link>
-          </h5>
-
-          {user && user.id === post.username._id && (
-            <button
-              className="btn btn-sm btn-outline-danger"
-              onClick={handleDelete}
-            >
-              Delete 🗑️
-            </button>
+    <div className="post-card">
+      <div className="post-header">
+        <Link to={`/users/${post.username._id}`} className="user-info">
+          {post.username.profileImage && (
+            <img
+              src={`http://localhost:3000${post.username.profileImage}`}
+              alt={post.username.username}
+              className="avatar"
+            />
           )}
-        </div>
+          <h5 className="username">{post.username.username}</h5>
+        </Link>
 
-        <p className="mt-2">{post.text}</p>
-
-        {post.image && (
-          <img
-            src={`http://localhost:3000${post.image}`}
-            alt="Post"
-            className="img-fluid rounded mb-2"
-          />
+        {user && user.id === post.username._id && (
+          <button className="delete-btn" onClick={handleDelete}>
+            🗑️ Delete
+          </button>
         )}
-
-        <div className="d-flex align-items-center justify-content-between mt-2">
-          <div>
-            <button
-              className={`btn btn-sm ${liked ? "btn-danger" : "btn-outline-danger"} me-2`}
-              onClick={handleLikeToggle}
-            >
-              {liked ? "Unlike ❤️" : "Like 🤍"}
-            </button>
-            <span>{likesCount} likes</span>
-          </div>
-        </div>
-
-        <small className="text-muted d-block mt-2">
-          {new Date(post.createdAt).toLocaleString()}
-        </small>
-
-        <hr />
-        <CommentSection postId={post._id} />
       </div>
+
+      <p className="post-text">{post.text}</p>
+
+      {post.image && (
+        <img
+          src={`http://localhost:3000${post.image}`}
+          alt="Post"
+          className="post-image"
+        />
+      )}
+
+      <div className="post-actions">
+        <button
+          className={`like-btn ${liked ? "liked" : ""}`}
+          onClick={handleLikeToggle}
+        >
+          {liked ? "❤️ Unlike" : "🤍 Like"}
+        </button>
+        <span className="likes-count">{likesCount} likes</span>
+      </div>
+
+      <small className="post-date">
+        {new Date(post.createdAt).toLocaleString()}
+      </small>
+
+      <hr className="divider" />
+      <CommentSection postId={post._id} />
     </div>
   );
 };

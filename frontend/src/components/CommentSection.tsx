@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getComments, addComment, deleteComment } from "../services/commentService";
 import { useAuth } from "../contexts/AuthContext";
+import "../../styles/CommentSection.css"; 
 
 type Comment = {
   _id: string;
@@ -51,33 +52,39 @@ const CommentSection = ({ postId }: { postId: string }) => {
   };
 
   return (
-    <div className="mt-3">
-      <h6>Comments</h6>
-      <div className="mb-2">
+    <div className="comment-section">
+      <h6 className="comment-title">Comments</h6>
+
+      <div className="comment-form">
         <input
           type="text"
-          className="form-control"
+          className="comment-input"
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
           placeholder="Add a comment..."
         />
-        <button className="btn btn-primary mt-1" onClick={handleAddComment}>
+        <button className="comment-submit" onClick={handleAddComment}>
           Post
         </button>
       </div>
-      <ul className="list-group">
+
+      <ul className="comment-list">
         {comments.map((comment) => (
-          <li key={comment._id} className="list-group-item d-flex justify-content-between align-items-center">
-            <div>
-              <strong>{comment.user.username}:</strong> {comment.text}
+          <li key={comment._id} className="comment-item">
+            <div className="comment-content">
+              <strong className="comment-author">{comment.user.username}:</strong> {comment.text}
               <br />
-              <small className="text-muted">
+              <small className="comment-date">
                 {new Date(comment.createdAt).toLocaleString()}
               </small>
             </div>
+
             {user?.id === comment.user._id && (
-              <button className="btn btn-sm btn-danger" onClick={() => handleDeleteComment(comment._id)}>
-                Delete
+              <button
+                className="comment-delete"
+                onClick={() => handleDeleteComment(comment._id)}
+              >
+                🗑️
               </button>
             )}
           </li>

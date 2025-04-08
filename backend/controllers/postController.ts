@@ -75,23 +75,31 @@ export const getMyPosts = async (req: AuthRequest, res: Response): Promise<void>
   }
 };
 
-export const getPostsByUserId = async (req: Request, res: Response): Promise<void> => {
+export const getPostsByUserId = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const { userId } = req.params;
 
     const posts = await Post.find({ username: userId })
       .sort({ createdAt: -1 })
+      .populate("username", "username profileImage")
       .lean();
 
-    const response = posts.map((post) => ({
-      ...post,
-      likesCount: post.likes.length,
-    }));
+    const response = posts.map((post) => {
+      const likedByMe = req.user
+        ? post.likes.some((id) => id.toString() === req.user!._id.toString())
+        : false;
+
+      return {
+        ...post,
+        likedByMe,
+        likesCount: post.likes.length,
+      };
+    });
 
     res.status(200).json(response);
   } catch (error) {
-    console.error('Error fetching user posts:', error);
-    res.status(500).json({ message: 'Server error' });
+    console.error("Error fetching user posts:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -177,5 +185,27 @@ export const unlikePost = async (req: AuthRequest, res: Response): Promise<void>
   } catch (error) {
     console.error('Error unliking post:', error);
     res.status(500).json({ message: 'Server error' });
+  }
+};
+
+export const searchPosts = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { query } = req.query;
+
+    if (!query || typeof query !== "string") {
+      res.status(400).json({ message: "Search query is required" });
+      return;
+    }
+
+    const posts = await Post.find({
+      text: { $regex: query, $options: "i" },
+    })
+      .populate("username", "username profileImage")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error("Error searching posts:", error);
+    res.status(500).json({ message: "Server error" });
   }
 };

@@ -10,6 +10,7 @@ import {
   logoutUser,
 } from "../controllers/userController";
 import { protect } from "../middleware/authMiddleware";
+import upload from "../middleware/uploadMiddleware";
 
 const router = express.Router();
 
@@ -164,7 +165,7 @@ router.get("/me", protect, getUserProfile);
  *       401:
  *         description: Unauthorized
  */
-router.put("/me", protect, updateUserProfile);
+router.put("/me", protect, upload.single("profileImage"), updateUserProfile);
 
 /**
  * @swagger
@@ -231,6 +232,9 @@ router.post("/refresh", refreshAccessToken);
  *       404:
  *         description: User not found
  */
-router.get("/:userId", getUserProfileById);
+router.get("/:userId",protect, getUserProfileById);
+
+
+
 
 export default router;

@@ -6,7 +6,8 @@ import {
   getPostsByUserId,
   deletePost,
   likePost,
-  unlikePost
+  unlikePost,
+  searchPosts
 } from '../controllers/postController';
 import { protect } from '../middleware/authMiddleware';
 
@@ -98,7 +99,7 @@ router.get('/mine', protect, getMyPosts);
  *       404:
  *         description: User not found
  */
-router.get('/user/:userId', getPostsByUserId);
+router.get('/user/:userId',protect, getPostsByUserId);
 
 /**
  * @swagger
@@ -176,5 +177,7 @@ router.put('/:postId/like', protect, likePost);
  *         description: Post not found
  */
 router.put('/:postId/unlike', protect, unlikePost);
+
+router.get("/search", searchPosts);
 
 export default router;

@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Underdog&display=swap');
+
+:root {
+  /* 🎨 צבעים */
+  --color-bg: #0F0F0F;
+  --color-surface: #1C1C1C;
+  --color-surface-hover: #2A2A2A;
+  --color-border: #2F2F2F;
+  --color-text: #E5E7EB;
+  --color-text-muted: #9CA3AF;
+  --color-primary: #00D1B2;
+  --color-primary-hover: #38E8CE;
+  --color-accent: #3B82F6; /* כחול מודרני */
+  --color-danger: #FF5F57;
+
+  /* טיפוגרפיה */
+  --font-main: 'Underdog', cursive;
+  --font-size-lg: 1.5rem;
+  --font-size-md: 1rem;
+  --font-size-sm: 0.875rem;
+
+  /* UI */
+  --radius: 10px;
+  --padding: 1rem;
+  --gap: 1rem;
+  --shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-main);
+}

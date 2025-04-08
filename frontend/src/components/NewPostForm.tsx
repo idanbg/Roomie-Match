@@ -1,8 +1,9 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import api from "../services/api";
+import "../../styles/NewPostForm.css"; // Adjust the path as necessary
 
 type Props = {
-  onPostCreated: () => void; // Trigger a refresh after new post
+  onPostCreated: () => void;
 };
 
 const NewPostForm = ({ onPostCreated }: Props) => {
@@ -37,7 +38,7 @@ const NewPostForm = ({ onPostCreated }: Props) => {
       await api.post("/posts", { text, image: imagePath });
       setText("");
       setImageFile(null);
-      onPostCreated(); // refresh posts
+      onPostCreated();
     } catch (err) {
       console.error("Failed to create post:", err);
     } finally {
@@ -46,22 +47,23 @@ const NewPostForm = ({ onPostCreated }: Props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-4">
-      <div className="mb-3">
-        <textarea
-          className="form-control"
-          placeholder="What's on your mind?"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          required
-        />
-      </div>
+    <form onSubmit={handleSubmit} className="new-post-form">
+      <textarea
+        className="new-post-textarea"
+        placeholder="What's on your mind?"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        required
+      />
 
-      <div className="mb-3">
-        <input type="file" className="form-control" accept="image/*" onChange={handleFileChange} />
-      </div>
+      <input
+        type="file"
+        className="new-post-file"
+        accept="image/*"
+        onChange={handleFileChange}
+      />
 
-      <button className="btn btn-primary" type="submit" disabled={loading}>
+      <button className="new-post-button" type="submit" disabled={loading}>
         {loading ? "Posting..." : "Post"}
       </button>
     </form>

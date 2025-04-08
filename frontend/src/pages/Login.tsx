@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
-
+import "../../styles/Login.css"; // Adjust the path as necessary
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,55 +12,54 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
       await login(email, password);
-      navigate("/home"); // Redirect to home page after successful login
+      navigate("/home");
     } catch {
       setError("Login failed. Please check your credentials.");
     }
   };
 
   return (
-    <div className="container mt-5" style={{ maxWidth: 400 }}>
-      <h2 className="mb-4">Login</h2>
+    <div className="login-container">
+      <form className="login-form" onSubmit={handleSubmit}>
+        <h2 className="login-title">Login</h2>
 
-      {error && <div className="alert alert-danger">{error}</div>}
+        {error && <div className="login-error">{error}</div>}
 
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
+        <div className="form-group">
           <label>Email</label>
           <input
             type="email"
-            className="form-control"
+            className="form-input"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
 
-        <div className="mb-3">
+        <div className="form-group">
           <label>Password</label>
           <input
             type="password"
-            className="form-control"
+            className="form-input"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
 
-        <button className="btn btn-primary w-100" type="submit">
+        <button className="btn-primary" type="submit">
           Login
         </button>
-      </form>
 
-      <div className="text-center mt-3">
-        <p>Don't have an account?</p>
-        <Link to="/register" className="btn btn-outline-secondary">
-          Register
-        </Link>
-      </div>
+        <div className="form-footer">
+          <p>Don't have an account?</p>
+          <Link to="/register" className="btn-secondary">
+            Register
+          </Link>
+        </div>
+      </form>
     </div>
   );
 };

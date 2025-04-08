@@ -1,0 +1,124 @@
+@import "../styles/theme.css";
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+}
+
+.login-form {
+  background-color: var(--color-surface);
+  padding: 2rem;
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 400px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.login-title {
+  font-size: var(--font-size-lg);
+  text-align: center;
+  color: var(--color-text);
+  font-family: var(--font-main);
+}
+
+.login-error {
+  background-color: var(--color-danger);
+  padding: 0.75rem;
+  border-radius: var(--radius);
+  color: white;
+  text-align: center;
+  font-size: var(--font-size-sm);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.form-input {
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-surface-hover);
+  color: var(--color-text);
+  font-size: var(--font-size-md);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: black;
+  padding: 0.75rem;
+  border-radius: var(--radius);
+  font-size: var(--font-size-md);
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.form-footer {
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.btn-secondary {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.btn-secondary:hover {
+  color: var(--color-primary-hover);
+}
+@media (max-width: 480px) {
+    .auth-form {
+      padding: 1.5rem 1rem;
+      border-radius: 8px;
+    }
+  
+    .auth-title {
+      font-size: 1.5rem;
+    }
+  
+    .form-input {
+      font-size: 0.95rem;
+      padding: 0.6rem;
+    }
+  
+    .btn-primary {
+      font-size: 1rem;
+      padding: 0.6rem;
+    }
+  
+    .form-footer {
+      font-size: 0.85rem;
+    }
+  }
+  

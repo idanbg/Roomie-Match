@@ -1,21 +1,25 @@
 import { useNavigate } from "react-router-dom";
+import "../../styles/Landing.css";
+
 
 const Landing = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="container d-flex flex-column align-items-center justify-content-center vh-100 text-center">
-      <h1 className="mb-4">Welcome to Roomie Match 🏠</h1>
-      <p className="lead mb-5">
-        Find the perfect roommate easily and efficiently. Start now!
-      </p>
-      <div className="d-flex gap-3">
-        <button className="btn btn-primary btn-lg" onClick={() => navigate("/login")}>
-          Login
-        </button>
-        <button className="btn btn-outline-primary btn-lg" onClick={() => navigate("/register")}>
-          Register
-        </button>
+    <div className="landing-container">
+      <div className="overlay">
+        <div className="landing-content">
+          <h1 className="title">Roomie Match</h1>
+          <p className="subtitle">Find your vibe. Find your roommate.</p>
+          <div className="button-group">
+            <button className="btn primary" onClick={() => navigate("/login")}>
+              Login
+            </button>
+            <button className="btn secondary" onClick={() => navigate("/register")}>
+              Register
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

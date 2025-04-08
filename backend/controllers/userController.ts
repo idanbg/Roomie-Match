@@ -8,7 +8,7 @@ import User, { IUser } from "../models/User";
  */
 const generateAccessToken = (userId: string): string => {
   return jwt.sign({ id: userId }, process.env.JWT_ACCESS_SECRET as string, {
-    expiresIn: "15m",
+    expiresIn: "1m",
   });
 };
 
@@ -95,6 +95,9 @@ export const loginUser = async (req: Request, res: Response): Promise<void> => {
         id: user._id,
         username: user.username,
         email: user.email,
+        profileImage: user.profileImage,
+        bio: user.bio,
+        createdAt: user.createdAt,
       },
     });
   } catch (error) {
@@ -134,7 +137,8 @@ export const updateUserProfile = async (
       return;
     }
 
-    const { username, profileImage, bio } = req.body;
+    const { username, bio } = req.body;
+    const profileImagePath = req.file ? `/uploads/${req.file.filename}` : undefined;
 
     const user = await User.findById(req.user._id);
     if (!user) {
@@ -143,8 +147,8 @@ export const updateUserProfile = async (
     }
 
     if (username) user.username = username;
-    if (profileImage) user.profileImage = profileImage;
     if (bio) user.bio = bio;
+    if (profileImagePath) user.profileImage = profileImagePath;
 
     await user.save();
 
@@ -163,6 +167,7 @@ export const updateUserProfile = async (
     res.status(500).json({ message: "Server error" });
   }
 };
+
 
 export const getUserProfileById = async (
   req: Request,
@@ -222,7 +227,6 @@ export const refreshAccessToken = async (req: Request, res: Response): Promise<v
       return;
     }
 
-    // Step 1: Verify refresh token
     jwt.verify(oldRefreshToken, process.env.JWT_REFRESH_SECRET as string, async (err, decoded) => {
       if (err || typeof decoded !== 'object' || !decoded?.id) {
         res.status(403).json({ message: 'Invalid refresh token' });
@@ -230,30 +234,34 @@ export const refreshAccessToken = async (req: Request, res: Response): Promise<v
       }
 
       const user = await User.findById(decoded.id);
-
-      // Step 2: Check if refreshToken is in user's tokens list
       if (!user || !user.refreshTokens.includes(oldRefreshToken)) {
         res.status(403).json({ message: 'Refresh token not recognized' });
         return;
       }
 
-      // Step 3: Generate new access token
-      const accessToken = generateAccessToken(user._id.toString());
-      const refreshToken = generateRefreshToken(user._id.toString());
+      const newAccessToken = generateAccessToken(user._id.toString());
+      const newRefreshToken = generateRefreshToken(user._id.toString());
 
-      // Step 4: Update user's refresh tokens
-      user.refreshTokens = user.refreshTokens.filter(token => token !== oldRefreshToken); // Remove old refresh token
-      user.refreshTokens.push(refreshToken); // Add new refresh token
-      await user.save(); // Save updated user
-    
+      // 1. Remove old refresh token
+      await User.updateOne(
+        { _id: user._id },
+        { $pull: { refreshTokens: oldRefreshToken } }
+      );
 
-      res.status(200).json({ accessToken, refreshToken });
+      // 2. Add new refresh token
+      await User.updateOne(
+        { _id: user._id },
+        { $push: { refreshTokens: newRefreshToken } }
+      );
+
+      res.status(200).json({ accessToken: newAccessToken, refreshToken: newRefreshToken });
     });
   } catch (error) {
-    console.error('❌ Error refreshing access token:', error);
+    console.error("❌ Error refreshing access token:", error);
     res.status(500).json({ message: 'Server error' });
   }
 };
+
 
 export const logoutUser = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -272,13 +280,15 @@ export const logoutUser = async (req: Request, res: Response): Promise<void> => 
       return;
     }
 
-    // Remove the token from user's refreshTokens array
-    user.refreshTokens = user.refreshTokens.filter(token => token !== refreshToken);
-    await user.save();
+    // Safely remove the refresh token from DB
+    await User.updateOne(
+      { _id: user._id },
+      { $pull: { refreshTokens: refreshToken } }
+    );
 
     res.status(200).json({ message: 'Logged out successfully' });
   } catch (error) {
-    console.error('❌ Logout error:', error);
+    console.error("❌ Logout error:", error);
     res.status(500).json({ message: 'Server error' });
   }
 };

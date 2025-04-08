@@ -1,10 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import api from "../services/api";
 
-type User = {
+export type User = {
   id: string;
   username: string;
   email: string;
+  profileImage?: string;
+  bio?: string;
 };
 
 type AuthState = {
@@ -16,6 +18,7 @@ type AuthContextType = {
   user: User | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  updateUser: (user: User) => void;
 };
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -47,7 +50,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const { user, accessToken, refreshToken } = res.data;
 
     setAuthState({ user, accessToken });
-
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
@@ -60,10 +62,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.removeItem("refreshToken");
   };
 
-  if (isLoading) return null; 
+  const updateUser = (updatedUser: User) => {
+    setAuthState((prev) => ({
+      ...prev,
+      user: updatedUser,
+    }));
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+  };
+
+  if (isLoading) return null;
 
   return (
-    <AuthContext.Provider value={{ user: authState.user, login, logout }}>
+    <AuthContext.Provider value={{ user: authState.user, login, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

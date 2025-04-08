@@ -1,0 +1,64 @@
+@import "../styles/theme.css";
+
+.home-container {
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  padding: 2rem 1.5rem;
+  color: var(--color-text);
+}
+
+.greeting {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.greeting h2 {
+  font-family: var(--font-main);
+  font-size: var(--font-size-lg);
+  color: var(--color-primary);
+}
+
+.greeting-sub {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.search-box {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.search-input {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.75rem 1rem;
+  font-size: var(--font-size-md);
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-hover);
+  color: var(--color-text);
+}
+
+.search-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.posts-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  margin-top: 2rem;
+}
+
+.loading-text,
+.no-posts-text {
+  text-align: center;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}

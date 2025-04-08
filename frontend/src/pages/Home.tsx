@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getPosts } from "../services/postService";
 import PostCard from "../components/PostCard";
 import NewPostForm from "../components/NewPostForm";
+import "../../styles/Home.css"; // Adjust the path as necessary
 
 type Post = {
   _id: string;
@@ -19,6 +20,7 @@ type Post = {
 
 const Home = () => {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
 
   const fetchPosts = async () => {
@@ -36,25 +38,44 @@ const Home = () => {
     fetchPosts();
   }, []);
 
+  const filteredPosts = posts.filter((post) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      post.text.toLowerCase().includes(query) ||
+      post.username.username.toLowerCase().includes(query)
+    );
+  });
+
   return (
-    <div className="container mt-4">
+    <div className="home-container">
       {/* Greeting section */}
-      <div className="mb-4 text-center">
+      <div className="greeting">
         <h2>Welcome to Roomie Match 🏡</h2>
-        <p className="text-muted">
-          Explore posts from other users and find your perfect roommate!
-        </p>
+        <p className="greeting-sub">Explore posts and find your perfect roommate!</p>
+      </div>
+
+      {/* Search input */}
+      <div className="search-box">
+        <input
+          type="text"
+          placeholder="Search posts or users..."
+          className="search-input"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
       </div>
 
       {/* New post form */}
       <NewPostForm onPostCreated={fetchPosts} />
 
       {/* Posts section */}
-      <div>
+      <div className="posts-section">
         {loading ? (
-          <p>Loading posts...</p>
+          <p className="loading-text">Loading posts...</p>
+        ) : filteredPosts.length === 0 ? (
+          <p className="no-posts-text">No posts match your search.</p>
         ) : (
-          posts.map((post) => (
+          filteredPosts.map((post) => (
             <PostCard key={post._id} post={post} onDelete={fetchPosts} />
           ))
         )}
