@@ -2,7 +2,7 @@
 
 :root {
   /* 🎨 צבעים */
-  --color-bg: #0F0F0F;
+  --color-bg: #1C1C1C;
   --color-surface: #1C1C1C;
   --color-surface-hover: #2A2A2A;
   --color-border: #2F2F2F;
@@ -12,6 +12,8 @@
   --color-primary-hover: #38E8CE;
   --color-accent: #3B82F6; /* כחול מודרני */
   --color-danger: #FF5F57;
+  font-family: var(--font-main); /* ✅ הוספה חשובה */
+
 
   /* טיפוגרפיה */
   --font-main: 'Underdog', cursive;
@@ -32,4 +34,8 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-main);
+}
+
+button, input, textarea, select {
+  font-family: inherit;
 }

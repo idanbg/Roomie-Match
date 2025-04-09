@@ -109,3 +109,20 @@ Content-Type: application/json
 {
   "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWE3MzlkOWM2OGI5ODI0NWM5MDA5ZCIsImlhdCI6MTc0MzU5NjMwMywiZXhwIjoxNzQ0MjAxMTAzfQ.RLGurFOkXTeU5IwC1fhgXPubJgNNm9Xn9oQdkf1a2m8"
 }
+###
+curl "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyDLfz15n01iZOnufyBt4p6u2m4TfrqRQfE" \
+-H 'Content-Type: application/json' \
+-X POST \
+-d '{
+  "contents": [{
+    "parts":[{"text": "Explain how AI works"}]
+    }]
+   }'
+###
+POST http://localhost:3000/api/ai/match
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWE3MzlkOWM2OGI5ODI0NWM5MDA5ZCIsImlhdCI6MTc0NDIxNDk5MywiZXhwIjoxNzQ0MjE1ODkzfQ.3SM6EuigG1vtMOYlH9Tiar6k2udELB2aIil96-HVG6E
+
+{
+  "bio": "Happy and love nature"
+}

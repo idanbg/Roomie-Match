@@ -6,11 +6,13 @@ import Home from "./pages/Home";
 import PrivateRoute from "./components/PrivateRoute";
 import AppLayout from "./components/AppLayout";
 import UserProfile from "./pages/UserProfile";
-import "../styles/theme.css";
-
+import"./App.css";
+import { AnimatePresence } from "framer-motion";
 
 function App() {
   return (
+    <AnimatePresence mode="wait">
+    <div className="main-content">
     <Router>
       <Routes>
         <Route path="/" element={<Landing />} />
@@ -54,6 +56,8 @@ function App() {
         />
       </Routes>
     </Router>
+    </div>
+    </AnimatePresence>
   );
 }
 

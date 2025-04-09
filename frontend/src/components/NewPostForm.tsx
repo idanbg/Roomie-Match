@@ -1,6 +1,6 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import api from "../services/api";
-import "../../styles/NewPostForm.css"; // Adjust the path as necessary
+import "../styles/NewPostForm.css";
 
 type Props = {
   onPostCreated: () => void;
@@ -47,26 +47,33 @@ const NewPostForm = ({ onPostCreated }: Props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="new-post-form">
-      <textarea
-        className="new-post-textarea"
-        placeholder="What's on your mind?"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        required
-      />
+    <>
+      <h4 className="new-post-heading">Share something with your future roommate 📝</h4>
 
-      <input
-        type="file"
-        className="new-post-file"
-        accept="image/*"
-        onChange={handleFileChange}
-      />
+      <form onSubmit={handleSubmit} className="new-post-form">
+        <textarea
+          className="new-post-textarea"
+          placeholder="What's on your mind?"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          required
+        />
 
-      <button className="new-post-button" type="submit" disabled={loading}>
-        {loading ? "Posting..." : "Post"}
-      </button>
-    </form>
+<label htmlFor="file-upload" className="custom-file-label">
+  {imageFile ? imageFile.name : "Attach image"}
+</label>
+<input
+  id="file-upload"
+  type="file"
+  className="new-post-file"
+  accept="image/*"
+  onChange={handleFileChange}
+/>
+        <button className="new-post-button" type="submit" disabled={loading}>
+          {loading ? "Posting..." : "Post"}
+        </button>
+      </form>
+    </>
   );
 };
 

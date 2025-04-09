@@ -7,6 +7,7 @@ import userRoutes from "./routes/userRoutes";
 import postRoutes from "./routes/postRoutes";
 import commentRoutes from "./routes/commentRoutes";
 import uploadRoutes from "./routes/uploadRoutes";
+import aiRoutes from "./routes/aiRoutes";
 import swaggerUI from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
 import { options } from "./config/swagger";
@@ -23,6 +24,7 @@ app.use(cookieParser());
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/comments", commentRoutes);
+app.use("/api/ai", aiRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "../backend/uploads")));
 app.use("/api/upload", uploadRoutes);
 
@@ -46,3 +48,4 @@ connectDB()
 // Swagger options
 const specs = swaggerJsDoc(options);
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(specs));
+console.log("🔑 GEMINI KEY:", process.env.GEMINI_API_KEY);

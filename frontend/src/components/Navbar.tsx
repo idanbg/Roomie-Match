@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { Navbar, Nav, Container, Button, Image } from "react-bootstrap";
+import "../styles/Nabvbar.css";
 
 const AppNavbar = () => {
   const { logout, user } = useAuth();
@@ -12,15 +13,22 @@ const AppNavbar = () => {
   };
 
   return (
-    <Navbar bg="light" expand="lg" className="mb-4">
+    <Navbar expand="lg" className="custom-navbar mb-4">
       <Container>
-        <Navbar.Brand as={Link} to="/home">
-          🏠 Roomie Match
+        {/* Replace the emoji with the clickable logo and site name */}
+        <Navbar.Brand as={Link} to="/home" className="d-flex align-items-center">
+          <img
+            src="/logo.png" // Path to the logo in the public folder
+            alt="Roomie Match Logo"
+            style={{ width: "110px", height: "50px", objectFit: "cover", marginRight: "10px" }}
+          />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="main-navbar" />
         <Navbar.Collapse id="main-navbar">
           <Nav className="ms-auto align-items-center">
-            <Nav.Link as={Link} to="/home">Home</Nav.Link>
+            <Nav.Link as={Link} to="/home">
+              Home
+            </Nav.Link>
 
             {user && (
               <Nav.Link as={Link} to={`/users/${user.id}`}>
@@ -28,7 +36,9 @@ const AppNavbar = () => {
               </Nav.Link>
             )}
 
-            <Nav.Link as={Link} to="/about">About</Nav.Link>
+            <Nav.Link as={Link} to="/about">
+              About
+            </Nav.Link>
 
             <Button
               variant="outline-danger"

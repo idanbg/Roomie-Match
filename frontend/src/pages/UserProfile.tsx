@@ -3,7 +3,10 @@ import { useParams } from "react-router-dom";
 import api from "../services/api";
 import PostCard from "../components/PostCard";
 import { useAuth } from "../contexts/AuthContext";
+import { getRoommateMatch } from "../services/aiService";
 import EditProfileForm from "../components/EditProfileForm";
+import "../styles/UserProfile.css";
+import { motion } from "framer-motion";
 
 type User = {
   id: string;
@@ -35,6 +38,19 @@ const UserProfile = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
+  const [suggestedMatch, setSuggestedMatch] = useState("");
+
+  const handleGetMatch = async () => {
+    setLoading(true);
+    try {
+      const result = await getRoommateMatch(user?.bio || "");
+      setSuggestedMatch(result);
+    } catch {
+      setSuggestedMatch("Something went wrong. Try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchUserProfile = async () => {
     try {
@@ -58,61 +74,91 @@ const UserProfile = () => {
 
   if (loading) return <p className="text-center">Loading profile...</p>;
   if (!user) return <p className="text-center text-danger">User not found</p>;
-  console.log("user object:", user);
-  console.log("currentUser.id:", currentUser?.id);
-  console.log("user._id:", user?.id);
-  console.log("Profile Image URL:", user.profileImage);
-
 
   return (
-    <div className="container mt-4">
-      <div className="text-center mb-4">
-        {user.profileImage && (
-          <img
-            src={`http://localhost:3000${user.profileImage}`}
-            alt={user.username}
-            className="rounded-circle mb-2"
-            style={{ width: "120px", height: "120px", objectFit: "cover" }}
-          />
-        )}
-        <h3>{user.username}</h3>
-        <p className="text-muted">{user.email}</p>
-        <small className="text-secondary">
-          Joined: {new Date(user.createdAt).toLocaleDateString()}
-        </small>
-        {user.bio && (
-          <div className="mt-3">
-            <h5>Bio:</h5>
-            <p>{user.bio}</p>
-          </div>
-        )}
-        
+    <motion.div
+      className="home-container"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+    >
+      <div className="container mt-4">
+        <div className="profile-container">
+          {user.profileImage && (
+            <img
+              src={`http://localhost:3000${user.profileImage}`}
+              alt={user.username}
+              className="profile-image"
+            />
+          )}
 
-        {currentUser?.id === user.id && !editing && (
-          <button className="btn btn-primary mt-2" onClick={() => setEditing(true)}>
-            Edit Profile
+          <h3 className="profile-username">{user.username}</h3>
+          <p className="profile-email">{user.email}</p>
+          <small className="profile-date">
+            Joined: {new Date(user.createdAt).toLocaleDateString()}
+          </small>
+
+          <p className="profile-bio">
+            {user.bio && user.bio.trim() !== ""
+              ? user.bio
+              : "No bio yet... Feel free to add one!"}
+          </p>
+
+          {currentUser?.id === user.id && !editing && (
+            <button className="edit-btn" onClick={() => setEditing(true)}>
+              Edit Profile
+            </button>
+          )}
+
+          {editing && (
+            <EditProfileForm
+              currentData={user}
+              onCancel={() => setEditing(false)}
+              onUpdated={async () => {
+                await fetchUserProfile();
+                setEditing(false);
+              }}
+            />
+          )}
+        </div>
+        {/* AI Recommendation Section */}
+        <div className="ai-section section-block">
+          <h4 className="ai-title">AI Roommate Recommendation</h4>
+
+          <p className="ai-description">
+            Want to know what kind of roommate would suit you best based on your
+            bio? Let our AI analyze and suggest your ideal match!
+          </p>
+
+          <button className="ai-btn" onClick={handleGetMatch}>
+            Find my ideal roommate
           </button>
-        )}
 
-        {editing && (
-          <EditProfileForm
-            currentData={user}
-            onCancel={() => setEditing(false)}
-            onUpdated={async () => {
-              await fetchUserProfile();
-              setEditing(false);
-            }}
-          />
+          {loading ? (
+            <p className="loading-text">Loading recommendation...</p>
+          ) : (
+            suggestedMatch && (
+              <div className="ai-recommendation-box">
+                <h5 className="ai-result-title">Here's your ideal roommate:</h5>
+                <p>{suggestedMatch}</p>
+              </div>
+            )
+          )}
+        </div>
+        <h5
+          className="profile-posts-title text-center"
+          style={{ marginTop: "3rem" }}
+        >
+          Posts by {user.username}
+        </h5>
+        {posts.length === 0 ? (
+          <p className="text-center">This user has no posts yet.</p>
+        ) : (
+          posts.map((post) => <PostCard key={post._id} post={post} />)
         )}
       </div>
-
-      <h5 className="mb-3 text-center">Posts by {user.username}</h5>
-      {posts.length === 0 ? (
-        <p className="text-center">This user has no posts yet.</p>
-      ) : (
-        posts.map((post) => <PostCard key={post._id} post={post} />)
-      )}
-    </div>
+    </motion.div>
   );
 };
 

@@ -4,6 +4,8 @@
   margin-top: 2rem;
   border-top: 1px solid var(--color-border);
   padding-top: 1rem;
+  font-family: var(--font-main); 
+
 }
 
 .comment-title {
@@ -83,17 +85,26 @@
 }
 
 .comment-delete {
-  background-color: var(--color-surface);
+  background-color: var(--color-surface); 
   color: var(--color-danger);
-  border: none;
-  padding: 0.4rem 0.6rem;
+  padding: 0.4rem 0.75rem;
   border-radius: var(--radius);
   cursor: pointer;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   transition: all 0.3s ease;
+  align-self: center;
 }
 
 .comment-delete:hover {
   background-color: var(--color-danger);
   color: white;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.comment-item {
+  animation: popIn 0.3s ease-out;
 }

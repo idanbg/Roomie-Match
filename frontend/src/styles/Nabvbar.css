@@ -1,0 +1,37 @@
+@import "../styles/theme.css";
+
+.custom-navbar {
+  background-color: var(--color-bg) !important;
+  color: var(--color-primary);
+  padding: 1rem 2rem;
+  box-shadow: 0 15px 7px rgba(0, 0, 0, 0.6);
+  font-family: var(--font-main);
+  min-height: 60px;
+
+}
+
+.custom-navbar .navbar-brand,
+.custom-navbar .nav-link {
+  color: var(--color-primary) !important;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.custom-navbar .nav-link:hover,
+.custom-navbar .navbar-brand:hover {
+  color: var(--color-primary-hover) !important;
+}
+
+.custom-navbar .btn-outline-danger {
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+  background-color: transparent;
+  font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.custom-navbar .btn-outline-danger:hover {
+  background-color: var(--color-primary);
+  color: black;
+}

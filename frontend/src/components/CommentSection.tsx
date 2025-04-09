@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getComments, addComment, deleteComment } from "../services/commentService";
 import { useAuth } from "../contexts/AuthContext";
-import "../../styles/CommentSection.css"; 
+import "../styles/CommentSection.css"; // Adjust the path as necessary
 
 type Comment = {
   _id: string;

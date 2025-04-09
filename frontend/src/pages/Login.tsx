@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
-import "../../styles/Login.css"; // Adjust the path as necessary
+import { motion } from "framer-motion"; 
+
+import "../styles/Login.css"; 
+
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,6 +25,13 @@ const Login = () => {
   };
 
   return (
+    <motion.div
+      className="home-container"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+    >
     <div className="login-container">
       <form className="login-form" onSubmit={handleSubmit}>
         <h2 className="login-title">Login</h2>
@@ -61,6 +72,7 @@ const Login = () => {
         </div>
       </form>
     </div>
+    </motion.div>
   );
 };
 

@@ -1,15 +1,19 @@
-@import "../styles/theme.css";
+@import "./theme.css";
 
 .landing-container {
-  background-image: url("/roomie-landing.jpg");
+  background-image: url("/roomie-landing.jpeg");
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   height: 100vh;
+  width: 100vw;
   position: relative;
+  overflow: hidden;
 }
 
 .overlay {
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(0, 0, 0, 0.55);
   height: 100%;
   width: 100%;
   display: flex;
@@ -26,6 +30,16 @@
   max-width: 600px;
   margin: 0 1rem;
   color: var(--color-text);
+  font-family: var(--font-main);
+  transition: transform 0.3s ease, box-shadow 0.3s ease,
+    background-color 0.4s ease, filter 0.3s ease;
+  box-shadow: 0 50px 60px rgba(0, 209, 178, 0.15);
+}
+.landing-content:hover {
+  transform: translateY(-4px) scale(1.015);
+  filter: brightness(1.02);
+  box-shadow: 0 8px 30px rgba(0, 209, 178, 0.25),
+    0 0 8px rgba(0, 209, 178, 0.15);
 }
 
 .title {
@@ -56,6 +70,7 @@
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   border: none;
+  font-family: inherit;
 }
 
 .btn.primary {

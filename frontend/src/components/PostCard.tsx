@@ -27,6 +27,8 @@ const PostCard = ({ post, onDelete }: PostCardProps) => {
   const { user } = useAuth();
   const [liked, setLiked] = useState(post.likedByMe);
   const [likesCount, setLikesCount] = useState(post.likesCount);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   const handleLikeToggle = async () => {
     try {
@@ -73,7 +75,7 @@ const PostCard = ({ post, onDelete }: PostCardProps) => {
 
         {user && user.id === post.username._id && (
           <button className="delete-btn" onClick={handleDelete}>
-            🗑️ Delete
+            🗑️
           </button>
         )}
       </div>
@@ -81,19 +83,36 @@ const PostCard = ({ post, onDelete }: PostCardProps) => {
       <p className="post-text">{post.text}</p>
 
       {post.image && (
-        <img
-          src={`http://localhost:3000${post.image}`}
-          alt="Post"
-          className="post-image"
-        />
-      )}
+  <>
+    <img
+      src={`http://localhost:3000${post.image}`}
+      alt="Post"
+      className="post-image"
+      onClick={() => setIsModalOpen(true)}
+      style={{ cursor: "pointer" }}
+    />
+
+    {isModalOpen && (
+      <div className="image-modal" onClick={() => setIsModalOpen(false)}>
+        <div className="image-modal-content" onClick={(e) => e.stopPropagation()}>
+          <img
+            src={`http://localhost:3000${post.image}`}
+            alt="Enlarged Post"
+            className="modal-image"
+          />
+        </div>
+      </div>
+    )}
+  </>
+)}
+
 
       <div className="post-actions">
         <button
           className={`like-btn ${liked ? "liked" : ""}`}
           onClick={handleLikeToggle}
         >
-          {liked ? "❤️ Unlike" : "🤍 Like"}
+          {liked ? "❤️ " : "🤍 "}
         </button>
         <span className="likes-count">{likesCount} likes</span>
       </div>

@@ -5,6 +5,8 @@
   min-height: 100vh;
   padding: 2rem 1.5rem;
   color: var(--color-text);
+  font-family: var(--font-main); 
+
 }
 
 .greeting {

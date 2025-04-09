@@ -1,12 +1,18 @@
 import { useNavigate } from "react-router-dom";
-import "../../styles/Landing.css";
-
+import { motion } from "framer-motion"; 
+import "../styles/Landing.css";
 
 const Landing = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="landing-container">
+    <motion.div
+      className="landing-container"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
       <div className="overlay">
         <div className="landing-content">
           <h1 className="title">Roomie Match</h1>
@@ -21,7 +27,7 @@ const Landing = () => {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

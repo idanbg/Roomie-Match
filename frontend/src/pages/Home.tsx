@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { getPosts } from "../services/postService";
 import PostCard from "../components/PostCard";
 import NewPostForm from "../components/NewPostForm";
-import "../../styles/Home.css"; // Adjust the path as necessary
+import { motion } from "framer-motion"; 
+import "../styles/Home.css";
 
 type Post = {
   _id: string;
@@ -47,11 +48,19 @@ const Home = () => {
   });
 
   return (
-    <div className="home-container">
+    <motion.div
+      className="home-container"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+    >
       {/* Greeting section */}
       <div className="greeting">
         <h2>Welcome to Roomie Match 🏡</h2>
-        <p className="greeting-sub">Explore posts and find your perfect roommate!</p>
+        <p className="greeting-sub">
+          Explore posts and find your perfect roommate!
+        </p>
       </div>
 
       {/* Search input */}
@@ -69,6 +78,7 @@ const Home = () => {
       <NewPostForm onPostCreated={fetchPosts} />
 
       {/* Posts section */}
+      <h4 className="new-post-heading">Latest roommate posts 👇</h4>
       <div className="posts-section">
         {loading ? (
           <p className="loading-text">Loading posts...</p>
@@ -80,7 +90,7 @@ const Home = () => {
           ))
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

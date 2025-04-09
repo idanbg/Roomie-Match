@@ -8,7 +8,7 @@ import User, { IUser } from "../models/User";
  */
 const generateAccessToken = (userId: string): string => {
   return jwt.sign({ id: userId }, process.env.JWT_ACCESS_SECRET as string, {
-    expiresIn: "1m",
+    expiresIn: "15m",
   });
 };
 

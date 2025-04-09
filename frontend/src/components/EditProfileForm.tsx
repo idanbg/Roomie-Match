@@ -12,7 +12,11 @@ type EditProfileFormProps = {
   onUpdated: () => void | Promise<void>;
 };
 
-const EditProfileForm = ({ currentData, onCancel, onUpdated }: EditProfileFormProps) => {
+const EditProfileForm = ({
+  currentData,
+  onCancel,
+  onUpdated,
+}: EditProfileFormProps) => {
   const { updateUser } = useAuth();
 
   const [username, setUsername] = useState(currentData.username);
@@ -47,41 +51,49 @@ const EditProfileForm = ({ currentData, onCancel, onUpdated }: EditProfileFormPr
   };
 
   return (
-    <form className="mt-3" onSubmit={handleSubmit}>
-      <div className="mb-3">
-        <label className="form-label">Username</label>
+    <form className="edit-profile-form" onSubmit={handleSubmit}>
+      <div className="form-group">
+        <label htmlFor="username">Username</label>
         <input
+          id="username"
           type="text"
-          className="form-control"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
         />
       </div>
 
-      <div className="mb-3">
-        <label className="form-label">Profile Image</label>
+      <div className="form-group">
+        <label htmlFor="profileImage">Profile Image</label>
         <input
+          id="profileImage"
           type="file"
-          className="form-control"
           onChange={(e) => setProfileImageFile(e.target.files?.[0] || null)}
         />
       </div>
 
-      <div className="mb-3">
-        <label className="form-label">Bio</label>
+      <div className="form-group">
+        <label htmlFor="bio">Bio</label>
         <textarea
-          className="form-control"
+          id="bio"
+          rows={3}
           value={bio}
           onChange={(e) => setBio(e.target.value)}
         />
       </div>
-
-      <div className="d-flex justify-content-end">
-        <button type="button" className="btn btn-secondary me-2" onClick={onCancel}>
+      <div className="form-actions-centered">
+        <button
+          type="button"
+          className="btn-primry equal-btn"
+          onClick={onCancel}
+        >
           Cancel
         </button>
-        <button type="submit" className="btn btn-primary" disabled={loading}>
+        <button
+          type="submit"
+          className="btn-primary equal-btn"
+          disabled={loading}
+        >
           {loading ? "Saving..." : "Save Changes"}
         </button>
       </div>
