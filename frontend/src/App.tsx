@@ -6,57 +6,88 @@ import Home from "./pages/Home";
 import PrivateRoute from "./components/PrivateRoute";
 import AppLayout from "./components/AppLayout";
 import UserProfile from "./pages/UserProfile";
-import"./App.css";
+import MessagesPage from "./pages/MessagesPage";
+import "./App.css";
 import { AnimatePresence } from "framer-motion";
+import ChatPage from "./pages/ChatPage";
+import About from "./pages/About";
 
 function App() {
   return (
     <AnimatePresence mode="wait">
-    <div className="main-content">
-    <Router>
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+      <div className="main-content">
+        <Router>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
-        {/* Protected Routes */}
-        <Route
-          path="/home"
-          element={
-            <PrivateRoute>
-              <AppLayout>
-                <Home />
-              </AppLayout>
-            </PrivateRoute>
-          }
-        />
+            <Route
+              path="/home"
+              element={
+                <PrivateRoute>
+                  <AppLayout>
+                    <Home />
+                  </AppLayout>
+                </PrivateRoute>
+              }
+            />
 
-        {/* Profile route of currently logged-in user */}
-        <Route
-          path="/profile"
-          element={
-            <PrivateRoute>
-              <AppLayout>
-                <UserProfile />
-              </AppLayout>
-            </PrivateRoute>
-          }
-        />
+            <Route
+              path="/profile"
+              element={
+                <PrivateRoute>
+                  <AppLayout>
+                    <UserProfile />
+                  </AppLayout>
+                </PrivateRoute>
+              }
+            />
 
-        {/* Profile route of another user by ID */}
-        <Route
-          path="/users/:userId"
-          element={
-            <PrivateRoute>
-              <AppLayout>
-                <UserProfile />
-              </AppLayout>
-            </PrivateRoute>
-          }
-        />
-      </Routes>
-    </Router>
-    </div>
+            <Route
+              path="/users/:userId"
+              element={
+                <PrivateRoute>
+                  <AppLayout>
+                    <UserProfile />
+                  </AppLayout>
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/messages"
+              element={
+                <PrivateRoute>
+                  <AppLayout>
+                    <MessagesPage />
+                  </AppLayout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/messages/:userId"
+              element={
+                <PrivateRoute>
+                  <AppLayout>
+                    <ChatPage />
+                  </AppLayout>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/about"
+              element={
+                <PrivateRoute>
+                  <AppLayout>
+                    <About/>
+                  </AppLayout>
+                </PrivateRoute>
+              }
+            />
+          </Routes>
+        </Router>
+      </div>
     </AnimatePresence>
   );
 }

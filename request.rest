@@ -17,8 +17,8 @@ POST http://localhost:3000/api/users/login
 Content-Type: application/json
 
 {
-  "email": "idan122@example.com",
-  "password": "123456"
+  "email": "hila@gmail.com",
+  "password": "1234"
 }
 
 ### 🧪 Create a new post (requires token)
@@ -126,3 +126,21 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWE3MzlkO
 {
   "bio": "Happy and love nature"
 }
+### Send a message
+POST http://localhost:3000/api/messages
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWE3MzlkOWM2OGI5ODI0NWM5MDA5ZCIsImlhdCI6MTc0NDI3NTg3OSwiZXhwIjoxNzQ0Mjc2Nzc5fQ.xdlJXgehwOJ7DfeREY3xhpvWXLIsqsowkKIvdt7P8qw
+
+{
+  "receiverId": "67f3bb12c41ff1579773c4fc",
+  "text": "Hey! How are you?",
+  "image": ""
+}
+
+### Get conversation with a user
+GET http://localhost:3000/api/messages/67f3bb12c41ff1579773c4fc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWE3MzlkOWM2OGI5ODI0NWM5MDA5ZCIsImlhdCI6MTc0NDI3NTg3OSwiZXhwIjoxNzQ0Mjc2Nzc5fQ.xdlJXgehwOJ7DfeREY3xhpvWXLIsqsowkKIvdt7P8qw
+
+### Get users I chatted with
+GET http://localhost:3000/api/messages
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZWE3MzlkOWM2OGI5ODI0NWM5MDA5ZCIsImlhdCI6MTc0NDI3NTg3OSwiZXhwIjoxNzQ0Mjc2Nzc5fQ.xdlJXgehwOJ7DfeREY3xhpvWXLIsqsowkKIvdt7P8qw

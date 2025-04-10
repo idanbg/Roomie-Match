@@ -1,0 +1,78 @@
+@import "./theme.css";
+
+.about-container {
+  background-color: var(--color-surface);
+  padding: 3rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  color: var(--color-text);
+  max-width: 1000px;
+  margin: 2rem auto;
+  font-family: var(--font-main);
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 30px rgba(0, 209, 178, 0.15);
+
+}
+
+.about-container:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 209, 178, 0.25);
+}
+
+.about-title {
+  font-size: 2.5rem;
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+}
+
+.about-description,
+.about-features,
+.about-ai,
+.about-team {
+  margin-bottom: 2rem;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+.feature-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.feature-list li {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+}
+
+.feature-list li::before {
+  content: "✔️";
+  color: var(--color-primary);
+  margin-right: 0.5rem;
+}
+
+.ai-section {
+  padding: 1.5rem;
+  background-color: rgba(0, 209, 178, 0.05);
+  border-radius: var(--radius);
+  border: 1px solid var(--color-primary);
+}
+
+.team-section {
+  margin-top: 2rem;
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .about-container {
+    padding: 2rem;
+    margin: 2rem 1rem;
+  }
+
+  .about-title {
+    font-size: 2rem;
+  }
+}

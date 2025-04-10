@@ -4,6 +4,7 @@ import { likePost, unlikePost, deletePost } from "../services/postService";
 import { useState } from "react";
 import { AxiosError } from "axios";
 import CommentSection from "./CommentSection";
+import PopUpChat from "./PopUpChat"; // הוספה למעלה
 import "../styles/PostCard.css"; // Adjust the path as necessary
 
 type PostCardProps = {
@@ -28,6 +29,8 @@ const PostCard = ({ post, onDelete }: PostCardProps) => {
   const [liked, setLiked] = useState(post.likedByMe);
   const [likesCount, setLikesCount] = useState(post.likesCount);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showChat, setShowChat] = useState(false);
+
 
 
   const handleLikeToggle = async () => {
@@ -61,24 +64,41 @@ const PostCard = ({ post, onDelete }: PostCardProps) => {
 
   return (
     <div className="post-card">
-      <div className="post-header">
-        <Link to={`/users/${post.username._id}`} className="user-info">
-          {post.username.profileImage && (
-            <img
-              src={`http://localhost:3000${post.username.profileImage}`}
-              alt={post.username.username}
-              className="avatar"
-            />
-          )}
-          <h5 className="username">{post.username.username}</h5>
-        </Link>
+<div className="post-header">
+  <Link to={`/users/${post.username._id}`} className="user-info">
+    {post.username.profileImage && (
+      <img
+        src={`http://localhost:3000${post.username.profileImage}`}
+        alt={post.username.username}
+        className="avatar"
+      />
+    )}
+    <h5 className="username">{post.username.username}</h5>
+  </Link>
 
-        {user && user.id === post.username._id && (
-          <button className="delete-btn" onClick={handleDelete}>
-            🗑️
-          </button>
-        )}
-      </div>
+  <div className="post-header-actions">
+    <button
+      className="icon-btn"
+      onClick={() => setShowChat(true)}
+      title="Send Message"
+    >
+      📩
+    </button>
+
+    {user && user.id === post.username._id && (
+      <button className="icon-btn" onClick={handleDelete} title="Delete Post">
+        🗑️
+      </button>
+    )}
+  </div>
+</div>
+{showChat && (
+  <PopUpChat
+  receiverId={post.username._id}
+  receiverInfo={post.username}
+  onClose={() => setShowChat(false)}
+/>
+)}
 
       <p className="post-text">{post.text}</p>
 

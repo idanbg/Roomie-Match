@@ -1,0 +1,97 @@
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(20, 20, 20, 0.8);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .popup-chat-box {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius);
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .popup-header {
+    padding: 0.8rem;
+    background-color: var(--color-surface-hover);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-primary);
+  }
+  
+  .popup-messages {
+    padding: 1rem;
+    overflow-y: auto;
+    flex-grow: 1;
+  }
+  
+  .popup-message {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+    align-items: flex-start;
+  }
+  
+  .popup-message.sent {
+    flex-direction: row-reverse;
+    text-align: right;
+  }
+  
+  .popup-img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--color-primary);
+  }
+  
+  .popup-name {
+    font-weight: bold;
+    color: var(--color-primary);
+    font-size: 0.9rem;
+  }
+  
+  .popup-time {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+  }
+  
+  .popup-input-box {
+    display: flex;
+    border-top: 1px solid var(--color-primary);
+    padding: 0.6rem;
+    background-color: var(--color-surface-hover);
+  }
+  
+  .popup-input-box input {
+    flex-grow: 1;
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-radius: var(--radius);
+    background-color: #111;
+    color: var(--color-text);
+    font-family: var(--font-main);
+    margin-right: 0.5rem;
+  }
+  
+  .close-btn {
+    background: none;
+    border: none;
+    color: var(--color-primary);
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+  

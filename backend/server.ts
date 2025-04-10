@@ -8,6 +8,7 @@ import postRoutes from "./routes/postRoutes";
 import commentRoutes from "./routes/commentRoutes";
 import uploadRoutes from "./routes/uploadRoutes";
 import aiRoutes from "./routes/aiRoutes";
+import messageRoutes from "./routes/messageRoutes";
 import swaggerUI from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
 import { options } from "./config/swagger";
@@ -18,12 +19,13 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors({ origin: "http://localhost:5173", credentials: true })); // Allow CORS for frontend
+app.use(cors({ origin: "http://localhost:5173", credentials: true })); 
 app.use(express.json());
 app.use(cookieParser());
 app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/comments", commentRoutes);
+app.use("/api/messages", messageRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "../backend/uploads")));
 app.use("/api/upload", uploadRoutes);

@@ -123,6 +123,8 @@ const UserProfile = () => {
           )}
         </div>
         {/* AI Recommendation Section */}
+        {currentUser?.id === user.id && (
+
         <div className="ai-section section-block">
           <h4 className="ai-title">AI Roommate Recommendation</h4>
 
@@ -146,6 +148,7 @@ const UserProfile = () => {
             )
           )}
         </div>
+        )}
         <h5
           className="profile-posts-title text-center"
           style={{ marginTop: "3rem" }}
