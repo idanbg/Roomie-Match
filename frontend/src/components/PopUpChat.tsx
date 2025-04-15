@@ -56,21 +56,27 @@ const PopUpChat = ({ receiverId, receiverInfo, onClose }: Props) => {
     fetchConversation();
   }, [receiverId]);
 
-  // Detect click outside the popup box
+  // Disable body scroll on mount
   useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
+  // Close popup on click outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
       if (
         popupRef.current &&
-        !popupRef.current.contains(event.target as Node)
+        !popupRef.current.contains(e.target as Node)
       ) {
-        onClose(); // close the popup
+        onClose();
       }
     };
-
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [onClose]);
 
   return (
@@ -80,6 +86,7 @@ const PopUpChat = ({ receiverId, receiverInfo, onClose }: Props) => {
         initial={{ y: 100 }}
         animate={{ y: 0 }}
         ref={popupRef}
+        onWheel={(e) => e.stopPropagation()} // prevent scroll propagation
       >
         <div className="popup-header">
           <h5>Chat</h5>
