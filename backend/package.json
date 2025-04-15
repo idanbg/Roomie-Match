@@ -4,7 +4,7 @@
   "description": "web app project",
   "main": "dist/backend/server.js",
  "scripts": {
-  "build": "tsc && cp -r backend/uploads dist/uploads",
+  "build": "tsc",
   "start": "node dist/server.js",
   "dev": "ts-node-dev --respawn --transpile-only server.ts",
   "lint": "eslint . --ext .ts"
