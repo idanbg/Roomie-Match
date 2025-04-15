@@ -55,6 +55,14 @@ const PopUpChat = ({ receiverId, receiverInfo, onClose }: Props) => {
     fetchConversation();
   }, [receiverId]);
 
+  useEffect(() => {
+    // Prevent background scroll
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
   return (
     <motion.div
       className="popup-overlay"
@@ -85,9 +93,7 @@ const PopUpChat = ({ receiverId, receiverInfo, onClose }: Props) => {
               >
                 <Link to={`/users/${displayUser._id}`}>
                   <img
-                    src={
-                      displayUser.profileImage || ""
-                    }
+                    src={displayUser.profileImage || ""}
                     className="popup-img"
                   />
                 </Link>

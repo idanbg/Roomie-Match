@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { likePost, unlikePost, deletePost } from "../services/postService";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AxiosError } from "axios";
 import CommentSection from "./CommentSection";
 import PopUpChat from "./PopUpChat";
@@ -60,15 +60,22 @@ const PostCard = ({ post, onDelete }: PostCardProps) => {
     }
   };
 
+  // Disable scrolling when modal or chat is open
+  useEffect(() => {
+    const shouldBlockScroll = isModalOpen || showChat;
+    document.body.style.overflow = shouldBlockScroll ? "hidden" : "auto";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isModalOpen, showChat]);
+
   return (
     <div className="post-card">
       <div className="post-header">
         <Link to={`/users/${post.username._id}`} className="user-info">
           {post.username.profileImage && (
             <img
-              src={
-                post.username.profileImage
-              }
+              src={post.username.profileImage}
               alt={post.username.username}
               className="avatar"
             />
@@ -96,6 +103,7 @@ const PostCard = ({ post, onDelete }: PostCardProps) => {
           )}
         </div>
       </div>
+
       {showChat && (
         <PopUpChat
           receiverId={post.username._id}
