@@ -20,7 +20,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-  origin: ["http://localhost:4173", "https://roomie-frontend-18vs.onrender.com"],
+  origin: ["http://localhost:5173", "https://roomie-frontend-18vs.onrender.com"],
   credentials: true
 }));
 app.use(express.json());

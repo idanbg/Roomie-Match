@@ -126,7 +126,6 @@ export const getUserProfile = (req: AuthRequest, res: Response): void => {
     createdAt: req.user.createdAt,
   });
 };
-
 export const updateUserProfile = async (
   req: AuthRequest,
   res: Response
@@ -138,7 +137,7 @@ export const updateUserProfile = async (
     }
 
     const { username, bio } = req.body;
-    const profileImagePath = req.file ? `/uploads/${req.file.filename}` : undefined;
+    const profileImageUrl = req.file ? req.file.path : undefined; // ← Cloudinary path
 
     const user = await User.findById(req.user._id);
     if (!user) {
@@ -148,7 +147,7 @@ export const updateUserProfile = async (
 
     if (username) user.username = username;
     if (bio) user.bio = bio;
-    if (profileImagePath) user.profileImage = profileImagePath;
+    if (profileImageUrl) user.profileImage = profileImageUrl;
 
     await user.save();
 
@@ -163,10 +162,11 @@ export const updateUserProfile = async (
       },
     });
   } catch (error) {
-    console.error("❌ Error updating profile:", error.message);
+    console.error("❌ Error updating profile:", error);
     res.status(500).json({ message: "Server error" });
   }
 };
+
 
 
 export const getUserProfileById = async (
