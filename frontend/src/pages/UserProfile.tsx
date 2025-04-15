@@ -90,7 +90,7 @@ const UserProfile = () => {
           {user.profileImage && (
             
             <img
-              src={user.profileImage}
+              src={`${import.meta.env.VITE_API_URL}${user.profileImage}`}
               alt={user.username}
               className="profile-image"
             />
