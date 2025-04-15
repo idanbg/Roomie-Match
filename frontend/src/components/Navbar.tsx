@@ -64,7 +64,7 @@ const AppNavbar = () => {
             {user?.profileImage && (
               <Link to={`/users/${user.id}`}>
                 <Image
-                  src={`${import.meta.env.VITE_API_URL}${user.profileImage}`}
+                  src={user.profileImage}
                   roundedCircle
                   width={40}
                   height={40}

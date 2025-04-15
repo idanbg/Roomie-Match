@@ -85,9 +85,9 @@ const PopUpChat = ({ receiverId, receiverInfo, onClose }: Props) => {
               >
                 <Link to={`/users/${displayUser._id}`}>
                   <img
-                    src={`${import.meta.env.VITE_API_URL}${
+                    src={
                       displayUser.profileImage || ""
-                    }`}
+                    }
                     className="popup-img"
                   />
                 </Link>

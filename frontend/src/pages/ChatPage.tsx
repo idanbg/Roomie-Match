@@ -85,9 +85,9 @@ const ChatPage = () => {
                   >
                     <Link to={`/users/${msg.sender._id}`}>
                       <img
-                        src={`${import.meta.env.VITE_API_URL}${
+                        src={
                           msg.sender.profileImage || ""
-                        }`}
+                        }
                         alt={msg.sender.username}
                         className="chat-user-img"
                       />

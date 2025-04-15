@@ -52,9 +52,9 @@ const MessagesPage = () => {
                 className="chat-user-box"
               >
                 <img
-                  src={`${import.meta.env.VITE_API_URL}${
+                  src={
                     chatUser.profileImage || ""
-                  }`}
+                  }
                   alt={chatUser.username}
                   className="chat-user-img"
                 />

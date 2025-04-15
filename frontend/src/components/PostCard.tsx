@@ -66,9 +66,9 @@ const PostCard = ({ post, onDelete }: PostCardProps) => {
         <Link to={`/users/${post.username._id}`} className="user-info">
           {post.username.profileImage && (
             <img
-              src={`${import.meta.env.VITE_API_URL}${
+              src={
                 post.username.profileImage
-              }`}
+              }
               alt={post.username.username}
               className="avatar"
             />
