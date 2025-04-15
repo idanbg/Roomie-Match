@@ -94,10 +94,11 @@ const UserProfile = () => {
         <div className="profile-container">
           {user.profileImage && (
             <img
-              src={imagePath}
-              alt={user.username}
-              className="profile-image"
-            />
+            src={user.profileImage ? `${import.meta.env.VITE_API_URL}${user.profileImage}` : ""}
+            alt={user.username}
+            className="profile-image"
+          />
+          
           )}
 
           <h3 className="profile-username">{user.username}</h3>
