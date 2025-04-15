@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import api from "../services/api";
 import { useAuth } from "../contexts/AuthContext";
 import "../styles/PopUpChat.css";
@@ -27,6 +27,7 @@ const PopUpChat = ({ receiverId, receiverInfo, onClose }: Props) => {
   const { user } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState("");
+  const popupRef = useRef<HTMLDivElement>(null);
 
   const fetchConversation = async () => {
     try {
@@ -55,30 +56,34 @@ const PopUpChat = ({ receiverId, receiverInfo, onClose }: Props) => {
     fetchConversation();
   }, [receiverId]);
 
+  // Detect click outside the popup box
   useEffect(() => {
-    // Prevent background scroll
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = "auto";
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(event.target as Node)
+      ) {
+        onClose(); // close the popup
+      }
     };
-  }, []);
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [onClose]);
 
   return (
-    <motion.div
-      className="popup-overlay"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
+    <motion.div className="popup-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <motion.div
         className="popup-chat-box"
         initial={{ y: 100 }}
         animate={{ y: 0 }}
+        ref={popupRef}
       >
         <div className="popup-header">
           <h5>Chat</h5>
-          <button className="close-btn" onClick={onClose}>
-            ✖
-          </button>
+          <button className="close-btn" onClick={onClose}>✖</button>
         </div>
 
         <div className="popup-messages">
@@ -119,9 +124,7 @@ const PopUpChat = ({ receiverId, receiverInfo, onClose }: Props) => {
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
           />
-          <button className="edit-btn" onClick={handleSend}>
-            Send
-          </button>
+          <button className="edit-btn" onClick={handleSend}>Send</button>
         </div>
       </motion.div>
     </motion.div>
