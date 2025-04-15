@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Atma:wght@300;400;500;600;700&display=swap');
 
 :root {
   --color-bg: #1C1C1C;
@@ -14,7 +14,7 @@
   font-family: var(--font-main); 
 
 
-  --font-main: 'Poetsen One', sans-serif;
+  --font-family: 'Atma', sans-serif;
   --font-size-lg: 1.5rem;
   --font-size-md: 1rem;
   --font-size-sm: 0.875rem;
