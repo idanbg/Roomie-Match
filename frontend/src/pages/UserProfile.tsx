@@ -87,7 +87,7 @@ const UserProfile = () => {
         <div className="profile-container">
           {user.profileImage && (
             <img
-              src={`http://localhost:3000${user.profileImage}`}
+              src={`${import.meta.env.VITE_API_URL}${user.profileImage}`}
               alt={user.username}
               className="profile-image"
             />
@@ -124,30 +124,31 @@ const UserProfile = () => {
         </div>
         {/* AI Recommendation Section */}
         {currentUser?.id === user.id && (
+          <div className="ai-section section-block">
+            <h4 className="ai-title">AI Roommate Recommendation</h4>
 
-        <div className="ai-section section-block">
-          <h4 className="ai-title">AI Roommate Recommendation</h4>
+            <p className="ai-description">
+              Want to know what kind of roommate would suit you best based on
+              your bio? Let our AI analyze and suggest your ideal match!
+            </p>
 
-          <p className="ai-description">
-            Want to know what kind of roommate would suit you best based on your
-            bio? Let our AI analyze and suggest your ideal match!
-          </p>
+            <button className="ai-btn" onClick={handleGetMatch}>
+              Find my ideal roommate
+            </button>
 
-          <button className="ai-btn" onClick={handleGetMatch}>
-            Find my ideal roommate
-          </button>
-
-          {loading ? (
-            <p className="loading-text">Loading recommendation...</p>
-          ) : (
-            suggestedMatch && (
-              <div className="ai-recommendation-box">
-                <h5 className="ai-result-title">Here's your ideal roommate:</h5>
-                <p>{suggestedMatch}</p>
-              </div>
-            )
-          )}
-        </div>
+            {loading ? (
+              <p className="loading-text">Loading recommendation...</p>
+            ) : (
+              suggestedMatch && (
+                <div className="ai-recommendation-box">
+                  <h5 className="ai-result-title">
+                    Here's your ideal roommate:
+                  </h5>
+                  <p>{suggestedMatch}</p>
+                </div>
+              )
+            )}
+          </div>
         )}
         <h5
           className="profile-posts-title text-center"

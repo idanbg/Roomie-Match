@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000/api',
+  baseURL: `${import.meta.env.VITE_API_URL}/api`,
 });
 
 api.interceptors.request.use((config) => {
@@ -12,7 +12,6 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Intercept 401 errors and refresh token automatically
 api.interceptors.response.use(
   response => response,
   async error => {
@@ -25,24 +24,22 @@ api.interceptors.response.use(
         const refreshToken = localStorage.getItem('refreshToken');
         if (!refreshToken) throw new Error("No refresh token");
 
-        const res = await axios.post('http://localhost:3000/api/users/refresh', {
+        const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/users/refresh`, {
           refreshToken,
         });
 
         const { accessToken, refreshToken: newRefreshToken } = res.data;
 
-        // Update local storage
         localStorage.setItem('accessToken', accessToken);
         localStorage.setItem('refreshToken', newRefreshToken);
 
-        // Update Authorization header and retry original request
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return api(originalRequest);
 
       } catch (refreshError) {
         console.error("Token refresh failed:", refreshError);
         localStorage.clear();
-        window.location.href = "/"; // redirect to login if refresh fails
+        window.location.href = "/";
         return Promise.reject(refreshError);
       }
     }

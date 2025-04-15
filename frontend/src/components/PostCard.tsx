@@ -4,8 +4,8 @@ import { likePost, unlikePost, deletePost } from "../services/postService";
 import { useState } from "react";
 import { AxiosError } from "axios";
 import CommentSection from "./CommentSection";
-import PopUpChat from "./PopUpChat"; // הוספה למעלה
-import "../styles/PostCard.css"; // Adjust the path as necessary
+import PopUpChat from "./PopUpChat";
+import "../styles/PostCard.css";
 
 type PostCardProps = {
   post: {
@@ -30,8 +30,6 @@ const PostCard = ({ post, onDelete }: PostCardProps) => {
   const [likesCount, setLikesCount] = useState(post.likesCount);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showChat, setShowChat] = useState(false);
-
-
 
   const handleLikeToggle = async () => {
     try {
@@ -64,68 +62,76 @@ const PostCard = ({ post, onDelete }: PostCardProps) => {
 
   return (
     <div className="post-card">
-<div className="post-header">
-  <Link to={`/users/${post.username._id}`} className="user-info">
-    {post.username.profileImage && (
-      <img
-        src={`http://localhost:3000${post.username.profileImage}`}
-        alt={post.username.username}
-        className="avatar"
-      />
-    )}
-    <h5 className="username">{post.username.username}</h5>
-  </Link>
+      <div className="post-header">
+        <Link to={`/users/${post.username._id}`} className="user-info">
+          {post.username.profileImage && (
+            <img
+              src={`${import.meta.env.VITE_API_URL}${
+                post.username.profileImage
+              }`}
+              alt={post.username.username}
+              className="avatar"
+            />
+          )}
+          <h5 className="username">{post.username.username}</h5>
+        </Link>
 
-  <div className="post-header-actions">
-    <button
-      className="icon-btn"
-      onClick={() => setShowChat(true)}
-      title="Send Message"
-    >
-      📩
-    </button>
+        <div className="post-header-actions">
+          <button
+            className="icon-btn"
+            onClick={() => setShowChat(true)}
+            title="Send Message"
+          >
+            📩
+          </button>
 
-    {user && user.id === post.username._id && (
-      <button className="icon-btn" onClick={handleDelete} title="Delete Post">
-        🗑️
-      </button>
-    )}
-  </div>
-</div>
-{showChat && (
-  <PopUpChat
-  receiverId={post.username._id}
-  receiverInfo={post.username}
-  onClose={() => setShowChat(false)}
-/>
-)}
+          {user && user.id === post.username._id && (
+            <button
+              className="icon-btn"
+              onClick={handleDelete}
+              title="Delete Post"
+            >
+              🗑️
+            </button>
+          )}
+        </div>
+      </div>
+      {showChat && (
+        <PopUpChat
+          receiverId={post.username._id}
+          receiverInfo={post.username}
+          onClose={() => setShowChat(false)}
+        />
+      )}
 
       <p className="post-text">{post.text}</p>
 
       {post.image && (
-  <>
-    <img
-      src={`http://localhost:3000${post.image}`}
-      alt="Post"
-      className="post-image"
-      onClick={() => setIsModalOpen(true)}
-      style={{ cursor: "pointer" }}
-    />
-
-    {isModalOpen && (
-      <div className="image-modal" onClick={() => setIsModalOpen(false)}>
-        <div className="image-modal-content" onClick={(e) => e.stopPropagation()}>
+        <>
           <img
-            src={`http://localhost:3000${post.image}`}
-            alt="Enlarged Post"
-            className="modal-image"
+            src={`${import.meta.env.VITE_API_URL}${post.image}`}
+            alt="Post"
+            className="post-image"
+            onClick={() => setIsModalOpen(true)}
+            style={{ cursor: "pointer" }}
           />
-        </div>
-      </div>
-    )}
-  </>
-)}
 
+          {isModalOpen && (
+            <div className="image-modal" onClick={() => setIsModalOpen(false)}>
+              <div
+                className="image-modal-content"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <img
+                  src={`${import.meta.env.VITE_API_URL}${post.image}`}
+                  alt="Enlarged Post"
+                  className="modal-image"
+                />
+              </div>
+            </div>
+          )}
+        </>
+      )}
 
       <div className="post-actions">
         <button

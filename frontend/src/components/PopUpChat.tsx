@@ -56,11 +56,21 @@ const PopUpChat = ({ receiverId, receiverInfo, onClose }: Props) => {
   }, [receiverId]);
 
   return (
-    <motion.div className="popup-overlay" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <motion.div className="popup-chat-box" initial={{ y: 100 }} animate={{ y: 0 }}>
+    <motion.div
+      className="popup-overlay"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+    >
+      <motion.div
+        className="popup-chat-box"
+        initial={{ y: 100 }}
+        animate={{ y: 0 }}
+      >
         <div className="popup-header">
           <h5>Chat</h5>
-          <button className="close-btn" onClick={onClose}>✖</button>
+          <button className="close-btn" onClick={onClose}>
+            ✖
+          </button>
         </div>
 
         <div className="popup-messages">
@@ -69,10 +79,15 @@ const PopUpChat = ({ receiverId, receiverInfo, onClose }: Props) => {
             const displayUser = isSender ? msg.sender : receiverInfo;
 
             return (
-              <div className={`popup-message ${isSender ? "sent" : "received"}`} key={msg._id}>
+              <div
+                className={`popup-message ${isSender ? "sent" : "received"}`}
+                key={msg._id}
+              >
                 <Link to={`/users/${displayUser._id}`}>
                   <img
-                    src={`http://localhost:3000${displayUser.profileImage || ""}`}
+                    src={`${import.meta.env.VITE_API_URL}${
+                      displayUser.profileImage || ""
+                    }`}
                     className="popup-img"
                   />
                 </Link>
@@ -80,7 +95,10 @@ const PopUpChat = ({ receiverId, receiverInfo, onClose }: Props) => {
                   <span className="popup-name">{displayUser.username}</span>
                   <p>{msg.text}</p>
                   <span className="popup-time">
-                    {new Date(msg.createdAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                    {new Date(msg.createdAt).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}
                   </span>
                 </div>
               </div>
@@ -95,7 +113,9 @@ const PopUpChat = ({ receiverId, receiverInfo, onClose }: Props) => {
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
           />
-          <button className="edit-btn" onClick={handleSend}>Send</button>
+          <button className="edit-btn" onClick={handleSend}>
+            Send
+          </button>
         </div>
       </motion.div>
     </motion.div>
