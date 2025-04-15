@@ -109,7 +109,7 @@ const PostCard = ({ post, onDelete }: PostCardProps) => {
       {post.image && (
         <>
           <img
-            src={`${import.meta.env.VITE_API_URL}${post.image}`}
+            src={post.image}
             alt="Post"
             className="post-image"
             onClick={() => setIsModalOpen(true)}
@@ -123,7 +123,7 @@ const PostCard = ({ post, onDelete }: PostCardProps) => {
                 onClick={(e) => e.stopPropagation()}
               >
                 <img
-                  src={`${import.meta.env.VITE_API_URL}${post.image}`}
+                  src={post.image}
                   alt="Enlarged Post"
                   className="modal-image"
                 />
