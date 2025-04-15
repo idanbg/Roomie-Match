@@ -74,6 +74,7 @@ const UserProfile = () => {
 
   if (loading) return <p className="text-center">Loading profile...</p>;
   if (!user) return <p className="text-center text-danger">User not found</p>;
+  console.log("🖼️ Full image path:", `${import.meta.env.VITE_API_URL}${user.profileImage}`);
 
   return (
     <motion.div
@@ -85,9 +86,11 @@ const UserProfile = () => {
     >
       <div className="container mt-4">
         <div className="profile-container">
+          
           {user.profileImage && (
+            
             <img
-              src={`${import.meta.env.VITE_API_URL}${user.profileImage}`}
+              src={user.profileImage}
               alt={user.username}
               className="profile-image"
             />
