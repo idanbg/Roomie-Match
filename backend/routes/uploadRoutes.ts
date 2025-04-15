@@ -54,7 +54,7 @@ router.post(
         return;
       }
 
-      res.status(200).json({ imagePath: `/uploads/${req.file.filename}` });
+      res.status(200).json({ imagePath: req.file.path });
     } catch (error) {
       console.error('Image upload error:', error);
       res.status(500).json({ message: 'Server error' });
